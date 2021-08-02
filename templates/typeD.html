@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MuseumBot</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+<body>
+  <div class="wrap">
+  <header>
+    <h1 class="logo"><a href="#">Museum Information</a></h1>
+    <h3 class="page-title">해설을 읽고 다음 질문에 답하세요.</h3>
+  </header>
+  <section class="container">
+    <div class="page-control">
+      <a href="#" class="link-prev">
+        <i class="material-icons">chevron_left</i>
+        <span>이전</span>
+      </a>
+      <div class="paging">{{ session['stage'] }}/4</div>
+      <a href="#" class="link-next">
+        <span>다음</span>
+        <i class="material-icons">chevron_right</i>
+      </a>
+    </div>
+    <div class="flex">
+      <article class="mygallery-container">
+        <!-- 이미지 -->
+        <div class="img-area">
+            <img id="img-id" src="{{ url_for('static', filename='image/0.jpg') }}" alt="유물이미지">
+           </div>
+        <!-- 비디오 -->
+        <div class="description">
+            <div class="title">{{ session['title'] }}</div>
+            <br>
+            <ul class="description-list">
+              <li>ITEM 1</li>
+              <li>ITEM 2</li>
+              <li>ITEM 3</li>
+              <li>ITEM 4</li>
+            </ul>
+            <br>
+            <div class="text-area">
+                해설 텍스트 위치
+            </div>
+          </div>
+      </article>
+
+    </div>
+  </section>
+  </div>
+  <footer>@ Soft Computing & Interaction Lab. | GIST</footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+  <script src="../static/js/jquery-1.11.2.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/paging.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MuseumBot</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+<body class="login">
+  <form action="" name="login-form" method="post">
+    <h1>MuseumBot</h1>
+    <p class="msg">사용자 정보를 입력하고 '시작하기' 버튼을 눌러주세요.</p>
+    <input type="text" name="username" placeholder="이름" id="username">
+    <input type="text" name="groupname" placeholder="그룹 (ex: G1)" id="groupname">
+    <button type="button" class="smit">시작하기</button>
+  </form>
+  <footer class="fixed">@ Soft Computing & Interaction Lab. | GIST</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script>
+  $('.smit').on('click', function(e){
+    e.preventDefault();
+    console.log(0)
+    // let username = $("form[name=login-form]").serialize();
+    const username = document.getElementById("username").value;
+    const groupname = document.getElementById("groupname").value;
+
+    $.ajax({
+        type: 'POST',
+        async: false,                                  <!--[GET / POST] 둘중 하나 선택-->
+        url: '/',
+        data: {'username': username, 'groupname': groupname},
+        dataType: 'json',
+        success: function (result) {
+          alert(username + " " + groupname)
+            localStorage.setItem("cast", JSON.stringify(result))
+            location.href=result['target_html']
+        },
+        error: function (xtr, status, error) {alert(xtr + ":" + status + ":" + error);}
+      });
+    console.log(2)
+
+  })
+</script>
+</html>
