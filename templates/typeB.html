@@ -27,17 +27,13 @@
       </a>
     </div>
     <div class="flex">
-      <div class="title">{{ session['title'] }}</div>
-      <article class="mygallery-container">
-        <!-- 이미지 -->
-        <div class="img-area">
-            <img id="img-id" src="{{ url_for('static', filename='image/0.jpg') }}" alt="유물이미지">
-           </div>
-        <!-- 비디오 -->
-        <div class="video">
-          <video src="http://127.0.0.1:5000/static/video/video.mp4" controls></video>
-        </div>
-      </article>
+      <div class="title" align="center">{{ session['title'] }}</div>
+      <iframe id="kgbase" width="100%" height="97%" frameborder="0" src="" scrolling="no" style="overflow: hidden; margin-bottom: 5px;">지금 사용하고 계신 브라우저는 프레임을 지원하지 않습니다. 마인드마이스터
+          <a href="https://www.mindmeister.com/1979179677/_" target="_blank"></a>
+        </iframe>
+        <div class="mb-5">
+          <a href="https://www.mindmeister.com/1979179677/_" target="_blank"></a>
+          <a href="https://www.mindmeister.com/users/channel/71570687" target="_blank"></a></div>
     </div>
   </section>
   </div>
@@ -45,5 +41,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
   <script src="../static/js/jquery-1.11.2.js"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/paging.js') }}"></script>
+<script>
+  const result = JSON.parse(localStorage.getItem("cast"));
+  var el = document.getElementById("kgbase");
+  el.src = result['graph_url'];
+</script>
 </body>
 </html>

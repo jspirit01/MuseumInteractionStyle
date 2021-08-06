@@ -1,9 +1,7 @@
 from flask import Flask, render_template, request, session, json
-from flask_socketio import SocketIO
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'abcd'
-socketio = SocketIO(app)
 
 app.config['SESSION_TYPE'] = 'filesystem'
 
@@ -12,6 +10,13 @@ present_order = {
     "G2": ['B', 'C', 'A', 'D'],
     "G3": ['C', 'D', 'B', 'A'],
     "G4": ['D', 'A', 'C', 'B']
+}
+
+graph_url = {
+    "1": "https://www.mindmeister.com/maps/public_map_shell/1979179677/_?width=600&height=400&z=auto",
+    "2": "https://www.mindmeister.com/maps/public_map_shell/1979199233/_?width=600&height=400&z=auto",
+    "3": "https://www.mindmeister.com/maps/public_map_shell/1979255443/_?width=600&height=400&z=auto",
+    "4": "https://www.mindmeister.com/maps/public_map_shell/1979255918/_?width=600&height=400&z=auto"
 }
 
 @app.route('/', methods=['GET', 'POST'])
@@ -91,11 +96,15 @@ def make_json(pagenum):
     result = json.dumps({
         'target_html': 'type' + session['order'][pagenum - 1] + '.html',
         'title': content["title"],
+        # 'title': '검은점무늬 항아리',
         'text-area': content["description"],
         'li': content["li"],
         'img_url': "http://127.0.0.1:5000/static/image/%s.jpg" % pagenum,
+        # 'img_url': "http://127.0.0.1:5000/static/image/sample.jpg",
         'video': "http://127.0.0.1:5000/static/video/video.mp4",
-        'dynamic_html': "http://127.0.0.1:5000/static/description_html/%s_typeC.html" % pagenum
+        'dynamic_html': "http://127.0.0.1:5000/static/description_html/%s_typeB.html" % pagenum,
+        # 'dynamic_html': "http://127.0.0.1:5000/static/description_html/sample.html"
+        "graph_url": graph_url[str(pagenum)]
     })
 
     return result
@@ -121,16 +130,7 @@ def search_database(page_num):
 
 
 
-def messageReceived(methods=['GET', 'POST']):
-    print('message was received!!!')
-
-@socketio.on('my event')
-def handle_my_custom_event(json, methods=['GET', 'POST']):
-    print('received my event: ' + str(json))
-    socketio.emit('my response', json, callback=messageReceived)
-
-
 
 
 if __name__ == '__main__':
-    socketio.run(app, debug=True)
+    app.run(debug=True)

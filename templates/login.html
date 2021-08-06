@@ -38,7 +38,8 @@
             localStorage.setItem("cast", JSON.stringify(result))
             location.href=result['target_html']
         },
-        error: function (xtr, status, error) {alert(xtr + ":" + status + ":" + error);}
+        error: function (xtr, status, error) {
+          alert(xtr + ":" + status + ":" + error);}
       });
     console.log(2)
 
