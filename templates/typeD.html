@@ -9,11 +9,10 @@
   <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
 </head>
 <body>
-
   <div class="wrap">
   <header>
     <h1 class="logo"><a href="#">Museum Information</a></h1>
-    <h3 class="page-title">해설을 읽고 다음 질문에 답하세요.</h3>
+    <h3 class="page-title"></h3>
   </header>
   <section class="container">
     <div class="page-control">
@@ -28,13 +27,12 @@
       </a>
     </div>
     <div class="flex">
-      <article class="mygallery-container">
-        <!-- 이미지 -->
-        <div class="img-area">
-            <img id="img-id" src="{{ url_for('static', filename='image/0.jpg') }}" alt="유물이미지">
-           </div>
-        <!-- 비디오 -->
-        <div class="description">
+      <article class="gallery-container">
+        <div class="scroll-area">
+          <div class="img-area">
+            <img id="img-id" src="{{ url_for('static', filename='image/1.jpg') }}" alt="유물이미지">
+          </div>
+          <div class="description">
             <div class="title">{{ session['title'] }}</div>
             <br>
             <ul class="description-list">
@@ -43,13 +41,26 @@
               <li>ITEM 3</li>
               <li>ITEM 4</li>
             </ul>
-            <br>
             <div class="text-area">
-                해설 텍스트 위치
+              해설 텍스트 위치
             </div>
           </div>
+        </div>
       </article>
-
+      <article class="chat-container">
+        <div class="chat-thread">
+          <ul class="chat-list">
+            <li class="chatbot">
+              <span class="material-icons">smart_toy</span>
+                  무엇을 질문하시겠습니까?
+            </li>
+          </ul>
+        </div>
+        <div class="chat-input">
+          <input type="text" id="question-text" placeholder="질문을 입력하세요.">
+          <button id="btn-question">질문하기</button>
+        </div>
+      </article>
     </div>
   </section>
   </div>
@@ -57,7 +68,115 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
   <script src="../static/js/jquery-1.11.2.js"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='js/paging.js') }}"></script>
-<script id="610c8cab2bb297173e6cc579" src="https://dashboard.chatfuel.com/integration/fb-entry-point.js" async defer></script>
+  <script src="js/chat.js"></script>
+  <script>
 
+    const question  = function() {
+      const question = $('#question-text').val();
+      const title = $('.title').text();
+      if (question.length > 0) {
+        $('.chat-list').append(`
+      <li class="me">
+        <span class="material-icons">face</span>
+        ${question}
+      </li>
+    `)
+        $(".chat-thread").animate({scrollTop: $('.chat-list').height()}, 1000);
+      $.ajax({
+        type: 'POST',
+        async: false,                                  <!--[GET / POST] 둘중 하나 선택-->
+        url: '/get_answer',
+        data: {
+          'question_id': question,
+          'title': title
+        },
+        dataType: 'json',
+        success: function (result) {
+          //alert("result = " + jQuery.type(result['imgs']));
+          //answer(result)    // 답변 출력 (result == 답변 내용)
+          answer(result['answer'], result['imgs'])
+        },
+        error: function (xtr, status, error) {
+          alert(xtr + ":" + status + ":" + error);
+        }
+
+      });
+
+      }
+
+    }
+
+    const answer = function(bot_answer, imgs){
+      const answer = bot_answer//{{bot_answer|tojson}};
+      const img_list = imgs
+      if(answer.length > 0){
+        if(img_list.length != 0 ){
+          //이미지+ 챗봇 답변 출력
+          $.each(img_list, function(i, value){
+            $('.chat-list').append(`
+              <li class="chatbot">
+                <span class="material-icons">smart_toy</span>
+                  <img src="../static/related_image/${value[1]}" width="200px">
+                  <br>${value[0]}
+              </li>
+            `)
+          });
+        }
+        // 챗봇 답변 출력
+        $('.chat-list').append(`
+          <li class="chatbot">
+              <span class="material-icons">smart_toy</span>
+              ${answer}
+          </li>
+        `)
+        $('#question-text').val('')     // 텍스트 입력창 내용 지우기
+      }
+      $(".chat-thread").animate({ scrollTop: $('.chat-list').height() }, 1000);
+    }
+
+    /*const answer = function(bot_answer, imgs){
+      const answer = bot_answer//{{bot_answer|tojson}};
+      const img_list = imgs
+      if(answer.length > 0){
+        if(img_list.length != 0 ){
+          // 이미지 있는 경우 이미지 먼저 출력
+          var img_obj =  `<span>`;
+          $.each(img_list, function(i, value){
+            img_obj+=`<img src="${value}" width="33%">`;
+          });
+          img_obj +=  `<span>`;
+          //var img_obj = `<img src="${img_list[0]}" width="30%">`
+        }
+        // 챗봇 답변 출력
+        $('.chat-list').append(`
+          <li class="chatbot">
+              <span class="material-icons">smart_toy</span>
+              ${img_obj}<br>${answer}
+          </li>
+        `)
+        $('#question-text').val('')     // 텍스트 입력창 내용 지우기
+      }
+      $(".chat-thread").animate({ scrollTop: $('.chat-list').height() }, 1000);
+  }
+*/
+  $('#btn-question').on({
+  click: question,
+  // mouseup: question,
+  keyup:function(key) {
+    if(key.keyCode==13) {
+      question()
+    }
+  }
+  });
+
+  $('#question-text').on({
+  keyup:function(key) {
+    if(key.keyCode==13) {
+      question()
+    }
+  }
+  });
+
+  </script>
 </body>
 </html>

@@ -143,8 +143,59 @@
                          <span class="tooltip-item" pink>부안</span>
                      </span>
                 일대의 가마터에서 나왔다.
-
+                
             </div>
+            <button id="btn-open-modal" class="btn-open-modal">관련 유물 보기</button>
         </div>
+        <div id="modal" class="modal"> 
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-gallery">
+                    <div>
+                        <img src = "http://127.0.0.1:5000/static/related_image/1.jpg"><br>
+                        검은점무늬 항아리
+                    </div>
+                    <div>
+                        <img src = "http://127.0.0.1:5000/static/related_image/3.jpg"><br>
+                        물소모양 연적
+                    </div>
+                    <div>
+                        <img src = "http://127.0.0.1:5000/static/related_image/8.jpg"><br>
+                        청자첩화국화무늬큰화병
+                    </div>
+                </div>
+            </div>    
+        </div> 
+        
+
       </article>
 <script src="../static/js/tooltip.js"></script>
+<script>
+// Get the modal
+var modal = document.getElementById('modal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("btn-open-modal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];                                          
+
+// When the user clicks on the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+</script>
+

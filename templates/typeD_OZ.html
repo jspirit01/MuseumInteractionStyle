@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MuseumBot</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Icons">
+  <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+<body>
+    <!-- Messenger 채팅 플러그인 Code -->
+    <div id="fb-root"></div>
+
+    <!-- Your 채팅 플러그인 code -->
+    <div id="fb-customer-chat" class="fb-customerchat">
+    </div>
+
+    <script>
+      var chatbox = document.getElementById('fb-customer-chat');
+      chatbox.setAttribute("page_id", "100839352063831");
+      chatbox.setAttribute("attribution", "biz_inbox");
+
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v11.0'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/ko_KR/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+    <!--<script id="610c8cab2bb297173e6cc579" src="https://dashboard.chatfuel.com/integration/fb-entry-point.js" async defer></script>-->
+  <div class="wrap">
+  <header>
+    <h1 class="logo"><a href="#">Museum Information</a></h1>
+    <h3 class="page-title"></h3>
+  </header>
+  <section class="container">
+    <div class="page-control">
+      <a href="#" class="link-prev">
+        <i class="material-icons">chevron_left</i>
+        <span>이전</span>
+      </a>
+      <div class="paging">{{ session['stage'] }}/4</div>
+      <a href="#" class="link-next">
+        <span>다음</span>
+        <i class="material-icons">chevron_right</i>
+      </a>
+    </div>
+    <div class="flex">
+      <article class="chatgallery-container">
+        <!-- 이미지 -->
+        <div class="img-area">
+            <img id="img-id" src="{{ url_for('static', filename='image/0.jpg') }}" alt="유물이미지">
+           </div>
+        <div class="description" width="45%">
+            <div class="title">{{ session['title'] }}</div>
+            <br>
+            <ul class="description-list">
+              <li>ITEM 1</li>
+              <li>ITEM 2</li>
+              <li>ITEM 3</li>
+              <li>ITEM 4</li>
+            </ul>
+            <br>
+            <div class="text-area">
+            </div>
+          </div>
+      </article>
+
+    </div>
+  </section>
+  </div>
+  <footer>@ Soft Computing & Interaction Lab. | GIST</footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+  <script src="../static/js/jquery-1.11.2.js"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/paging.js') }}"></script>
+
+</body>
+</html>
